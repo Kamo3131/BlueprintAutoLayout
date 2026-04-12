@@ -1,0 +1,12 @@
+[requires]
+sfml/3.0.2
+jsoncpp/1.9.6
+
+[options]
+sfml/*:shared=False
+jsoncpp/*:shared=False
+*:shared=False
+
+[generators]
+CMakeDeps
+CMakeToolchain

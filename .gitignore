@@ -1,0 +1,6 @@
+build/
+out/
+.conan2/
+CMakeUserPresets.json
+*.user
+input2.json
