@@ -110,18 +110,45 @@ void AutoLayout::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         rectangle.setFillColor(sf::Color(216, 211, 101));
         target.draw(rectangle);
         
+
+        bool isBranch = (node.to.size() > 1);
         for(const auto& con : node.to) {
-            const float to_x = m_data.at(con).x - 0.5 * m_size_x;
-            const float to_y = m_data.at(con).y;
+            const auto& targetNode = m_data.at(con);
+            const float to_x = targetNode.x - 0.5 * m_size_x;
+            const float to_y = targetNode.y;
+
+            float start_x = x + 0.5f * m_size_x;
+            float start_y = y;
+
             float dx = to_x - (x + 0.5f * m_size_x);
             float dy = to_y - y;
             float line_width = sqrtf(dx*dx + dy*dy);
+
             sf::RectangleShape line({line_width, 3.f});
             sf::Angle line_angle = sf::radians(atan2f(dy, dx));
             line.setPosition(sf::Vector2f{x + static_cast<float>(0.5 * m_size_x), y});
             line.setRotation(line_angle);
             line.setFillColor(sf::Color(230, 240, 130));
             target.draw(line);
+            
+            if (isBranch && !targetNode.value.empty()) {
+                sf::Text branchText(m_font);
+                branchText.setString(targetNode.value);
+                branchText.setCharacterSize(12);
+                branchText.setFillColor(sf::Color(250, 100, 100));
+
+                float mid_x = start_x + dx * 0.5f;
+                float mid_y = start_y + dy * 0.5f;
+
+                sf::FloatRect bBounds = branchText.getLocalBounds();
+                branchText.setOrigin({
+                    bBounds.position.x + bBounds.size.x / 2.0f,
+                    bBounds.position.y + bBounds.size.y / 2.0f
+                });
+                
+                branchText.setPosition({mid_x, mid_y - 10.f});
+                target.draw(branchText);
+            }
         }
 
         sf::Text text(m_font);
