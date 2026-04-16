@@ -9,8 +9,11 @@
 `cmake --build build`
 
 Linux
+
 `./build/BpAutoLayout`
 Windows (Ninja)
+
 `.\build\BpAutoLayout.exe`
 Windows
+
 `.\build\Debug\BpAutoLayout.exe`
